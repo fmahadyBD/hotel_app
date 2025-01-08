@@ -7,11 +7,11 @@ import { LocationService } from '../../service/location.service';
   styleUrl: './viewalllocation.component.css'
 })
 export class ViewalllocationComponent implements OnInit{
-
+  
   locations:any;
 
   constructor(
-    private locationSerice: LocationService
+    private locationService: LocationService
   ){}
 
 
@@ -20,7 +20,7 @@ export class ViewalllocationComponent implements OnInit{
   }
 
   loadLocation(){
-    this.locationSerice.getAllLocation().subscribe({
+    this.locationService.getAllLocation().subscribe({
       next:res=>{
         this.locations=res;
       },error:err=> {
