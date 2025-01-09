@@ -9,13 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import com.f.backend.entity.Token;
 @Repository
-public interface TokenRepository extends JpaRepository<Token,Long> {
+public interface TokenRepository extends JpaRepository<Token,Integer> {
  Optional<Token> findByToken(String  token);
 
     @Query("""
     Select t from Token t inner join User u on t.user.id= u.id
     where t.user.id= :userId and t.logout=false
 """)
-    List<Token> findAllTokenByUser(Long userId);
+    List<Token> findAllTokenByUser(Integer userId);
     
 } 

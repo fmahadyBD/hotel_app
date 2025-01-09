@@ -159,7 +159,7 @@ public class AuthService {
 
     }
 
-    public String activeUser(long id) {
+    public String activeUser(int id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User Not found with this id: " + id));
 

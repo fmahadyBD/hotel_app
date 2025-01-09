@@ -49,7 +49,7 @@ public class AuthController {
     }
 
     @GetMapping("/active/{id}")
-    public ResponseEntity<String> activeUser(@PathVariable("id") long id) {
+    public ResponseEntity<String> activeUser(@PathVariable("id") int id) {
         try {
             String response = authService.activeUser(id);
             return ResponseEntity.ok(response);

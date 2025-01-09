@@ -49,7 +49,7 @@ public class LocationService {
 
 
     // get Location by id
-    public Location getLocationById(Long id){
+    public Location getLocationById(int id){
 
         return locationRepository.findById(id).orElseThrow(()->
             new EntityNotFoundException("Location not found by this id: "+id)
@@ -58,7 +58,7 @@ public class LocationService {
 
 
     // Update the Location
-    public Location upLocation(Long id, Location newLocation, MultipartFile file) throws IOException{
+    public Location upLocation(int id, Location newLocation, MultipartFile file) throws IOException{
         Location oldLocation = locationRepository.findById(id)
                     .orElseThrow(()-> new EntityNotFoundException("Not found any location with this id: "+id));
 
@@ -75,7 +75,7 @@ public class LocationService {
 
 
     // Delete location
-    public void deleteLocation(Long id){
+    public void deleteLocation(int id){
         locationRepository.deleteById(id);
     }
 

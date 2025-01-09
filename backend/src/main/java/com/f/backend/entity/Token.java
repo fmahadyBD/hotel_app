@@ -1,6 +1,5 @@
 package com.f.backend.entity;
 
-
 import jakarta.persistence.*;
 
 @Entity
@@ -8,7 +7,7 @@ public class Token {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     private String token;
 
@@ -23,43 +22,53 @@ public class Token {
     public Token() {
     }
 
-    public Token(long id, String token, boolean logout, User user) {
+
+    public Token(int id, String token, boolean logout, User user) {
         this.id = id;
         this.token = token;
         this.logout = logout;
         this.user = user;
     }
 
-    public long getId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+
+    public void setId(int id) {
         this.id = id;
     }
+
 
     public String getToken() {
         return token;
     }
 
+
     public void setToken(String token) {
         this.token = token;
     }
+
 
     public boolean isLogout() {
         return logout;
     }
 
+
     public void setLogout(boolean logout) {
         this.logout = logout;
     }
+
 
     public User getUser() {
         return user;
     }
 
+
     public void setUser(User user) {
         this.user = user;
     }
-}
 
+
+}

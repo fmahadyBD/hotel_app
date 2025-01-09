@@ -15,22 +15,21 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     private String name;
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
     @Column(nullable = false)
     private String password;
     @Column(unique = true)
     private String cell;
     private String address;
-    private Date dob; //sql
+    private Date dob; // sql
     private String gender;
     private String image;
     @Column(nullable = false)
     private boolean active;
     private boolean isLock;
-
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
@@ -41,20 +40,8 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(long id, 
-                String name, 
-                String email, 
-                String password, 
-                String cell, 
-                String address, 
-                Date dob, 
-                String gender, 
-                String image, 
-                boolean active, 
-                boolean isLock, 
-                Role role, 
-                List<Token> tokens) {
-                    
+    public User(int id, String name, String email, String password, String cell, String address, Date dob,
+            String gender, String image, boolean active, boolean isLock, Role role, List<Token> tokens) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -70,11 +57,11 @@ public class User implements UserDetails {
         this.tokens = tokens;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

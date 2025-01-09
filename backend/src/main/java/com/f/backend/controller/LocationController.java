@@ -78,7 +78,7 @@ public class LocationController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Map<String, String>> deleteLocation(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deleteLocation(@PathVariable int id) {
         Map<String, String> response = new HashMap<>();
         try {
             locationService.deleteLocation(id);
@@ -92,7 +92,7 @@ public class LocationController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Map<String, String>> updateLocation(
-            @PathVariable Long id,
+            @PathVariable int id,
             @RequestBody Location location,
             @RequestPart(value = "image") MultipartFile file
 
@@ -114,7 +114,7 @@ public class LocationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getLocationById(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> getLocationById(@PathVariable int id) {
         Map<String, Object> response = new HashMap<>();
         try {
             Location location = locationService.getLocationById(id);

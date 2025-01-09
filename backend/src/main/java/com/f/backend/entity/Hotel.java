@@ -4,10 +4,13 @@ import jakarta.persistence.*;
 
 @Entity
 public class Hotel {
-    
+
+    /**
+     * Fixed error: I wos not give the id and generatedvalue
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
     private String name;
     private String address;
     private String rating;
@@ -19,7 +22,6 @@ public class Hotel {
      * By default it is in lazy. We use EAGER because of \:
      * - When it call we need instance data. Lazy take more time then EAGER
      */
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "location_id")
     private Location location;
@@ -27,7 +29,7 @@ public class Hotel {
     public Hotel() {
     }
 
-    public Hotel(Integer id, String name, String address, String rating, double maximum_price, double minimum_price,
+    public Hotel(int id, String name, String address, String rating, double maximum_price, double minimum_price,
             String image, Location location) {
         this.id = id;
         this.name = name;
@@ -39,11 +41,11 @@ public class Hotel {
         this.location = location;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -102,4 +104,5 @@ public class Hotel {
     public void setLocation(Location location) {
         this.location = location;
     }
+
 }
