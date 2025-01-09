@@ -28,8 +28,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
 @RestController
 @RequestMapping("/api/location")
 public class LocationController {
@@ -43,87 +41,91 @@ public class LocationController {
     @GetMapping("/")
     public ResponseEntity<List<Location>> getAllLocation() {
         List<Location> allLocation = locationService.getAllLocation();
-        return  ResponseEntity.ok(allLocation);
+        return ResponseEntity.ok(allLocation);
     }
-    
-    
 
     // more explore about the OjectMapper
     @PostMapping("/save")
     public ResponseEntity<Map<String, String>> savedLocation(
-        @RequestPart(value = "location") String locationJson,
-        @RequestParam(value = "image") MultipartFile file
-    ) throws JsonMappingException, JsonProcessingException{
-        ObjectMapper objectMapper = new ObjectMapper();
-        // Location locationOM = objectMapper.readValue(locationJson,Location.class);
-        Location location=objectMapper.readValue(locationJson, Location.class);
+            @RequestPart(value = "location") String locationJson,
+            @RequestParam(value = "image") MultipartFile file) throws JsonMappingException, JsonProcessingException {
 
-        Map<String , String > response = new HashMap<>();
-        try{
+        Map<String, String> response = new HashMap<>();
+        if (locationJson == null || locationJson.isEmpty() || file == null || file.isEmpty()) {
+
+            response.put("message", "Invalid input data");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Location location = objectMapper.readValue(locationJson, Location.class);
+        try {
+
             locationService.savedLocation(location, file);
-            response.put("message ","Location saved successfully");
+            response.put("message ", "Location saved successfully");
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        }catch(IOException exception){
-            response.put("message","Error saving in the image");
+
+        } catch (IOException exception) {
+
+            response.put("message", "Error saving in the image");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }catch(Exception e){
-            response.put("message","Error saving location: "+e.getMessage());
+
+        } catch (Exception e) {
+
+            response.put("message", "Error saving location: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
 
-
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Map<String,String>> deleteLocation(@PathVariable Long id){
-        Map<String,String> response = new HashMap<>();
-        try{
-        locationService.deleteLocation(id);
-        response.put("message","Error delete the location");
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-        }catch(Exception e){
-            response.put("message","Error dekete location: "+e.getMessage());
+    public ResponseEntity<Map<String, String>> deleteLocation(@PathVariable Long id) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            locationService.deleteLocation(id);
+            response.put("message", "Error delete the location");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            response.put("message", "Error dekete location: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 
-
     @PutMapping("/update/{id}")
-    public ResponseEntity<Map<String,String>> updateLocation(
-        @PathVariable Long id,
-        @RequestBody Location location,
-        @RequestPart(value = "image") MultipartFile file
-    
-    ){
+    public ResponseEntity<Map<String, String>> updateLocation(
+            @PathVariable Long id,
+            @RequestBody Location location,
+            @RequestPart(value = "image") MultipartFile file
 
-        Map<String , String > response = new HashMap<>();
-        try{
-            locationService.upLocation(id,location, file);
-            response.put("message","Location update successfully");
+    ) {
+
+        Map<String, String> response = new HashMap<>();
+        try {
+            locationService.upLocation(id, location, file);
+            response.put("message", "Location update successfully");
             return ResponseEntity.status(HttpStatus.OK).body(response);
-        }catch(IOException exception){
-            response.put("message ","Error updateing in the image");
+        } catch (IOException exception) {
+            response.put("message ", "Error updateing in the image");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        }catch(Exception e){
-            response.put("message","Error update location: "+e.getMessage());
+        } catch (Exception e) {
+            response.put("message", "Error update location: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
     }
 
-
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getLocationById(@PathVariable Long id){
-        Map<String,Object> response = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> getLocationById(@PathVariable Long id) {
+        Map<String, Object> response = new HashMap<>();
         try {
-            Location  location =locationService.getLocationById(id);
-            response.put("message","Found the entity");
+            Location location = locationService.getLocationById(id);
+            response.put("message", "Found the entity");
             response.put("message", location);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (EntityNotFoundException e) {
-            response.put("message","Error finding location: "+e.getMessage());
+            response.put("message", "Error finding location: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-        }catch(Exception e){
-            response.put("message","An unexpected error occurred: "+ e.getMessage());
+        } catch (Exception e) {
+            response.put("message", "An unexpected error occurred: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }

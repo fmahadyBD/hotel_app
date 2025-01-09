@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <form action="" [formGroup]="formGroup" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="">Location Name</label>
+                    <input type="text" name="" class="form-control" formControlName="name" >
+                </div>
+                <div class="mb-3">
+                    <label for="">Upload Image</label>
+                    <input type="file" (change)="onFilesSelected($event)"  class="form-control" >
+                </div>
+                    <button class="btn btn-success" [disabled]="formGroup.invalid" >Save</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+
+<div class="container">
+    <p>All Location</p>
+
+    <div class="row">
+        <div class="card md-4 m-2"   *ngFor="let l of locations">
+            <img [src]="'http://localhost:8080/images/locations/' + l.name" alt="Location image of {{l.name}}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">Name: {{l.name}}</h5>
+                <a href="#" class="btn btn-success">Go to </a>
+            </div>
+        </div>
+    </div>
+</div>

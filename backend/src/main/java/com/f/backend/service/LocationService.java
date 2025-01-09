@@ -82,9 +82,9 @@ public class LocationService {
 
 
     // Image save 
-    public String savedImage(MultipartFile file, Location location) throws IOException{
+    private String savedImage(MultipartFile file, Location location) throws IOException{
         Path uploadPath = Paths.get(uploadDir+"/locations");
-        if(!Files.notExists(uploadPath)){
+        if(!Files.exists(uploadPath)){
             Files.createDirectories(uploadPath);
         }
 
