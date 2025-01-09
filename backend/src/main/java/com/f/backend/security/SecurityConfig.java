@@ -1,5 +1,7 @@
 package com.f.backend.security;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,60 +23,74 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.f.backend.jwt.JwtAuthenticationFilter;
 import com.f.backend.service.UserService;
 
-import java.util.List;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity 
 public class SecurityConfig {
 
     @Autowired
-    private UserService userService;
+    private UserService userService; // Service for managing user details.
+
     @Autowired
     private JwtAuthenticationFilter authenticationFilter;
 
 
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return
-                http
-                        .csrf(AbstractHttpConfigurer::disable)
-                        .cors(Customizer.withDefaults())
-                        .authorizeHttpRequests(
-                                req->
-                                        req.requestMatchers("/login", "/register","/api/hotel/save", "/images/**", "/api/hotel/","/active/**","/api/**")
-                                                .permitAll()
-//                                                .requestMatchers("")
-//                                                .hasAnyAuthority("HOTEL", "ADMIN")
-                                                .requestMatchers("/api/hotel/h/searchhotel")
-                                                .hasAuthority("USER")
-                        )
-                        .userDetailsService(userService)
-                        .sessionManagement(
-                                session->
-                                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                        )
-                        .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                        .build();
-
-    }
-
-
-
-    @Bean
-    public PasswordEncoder encoder(){
+    public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Bean definition for AuthenticationManager.
+     * Retrieves the default authentication manager provided by Spring Security.
+     *
+     * @param configuration the Spring AuthenticationConfiguration
+     * @return the configured AuthenticationManager
+     * @throws Exception if an error occurs during setup
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-
         return configuration.getAuthenticationManager();
-
     }
 
-
+    /**
+     * Configures the SecurityFilterChain to define security policies and behavior.
+     *
+     * @param http the HttpSecurity object to configure
+     * @return the configured SecurityFilterChain
+     * @throws Exception if an error occurs during configuration
+     */
     @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                // Disable CSRF protection as JWT handles stateless authentication.
+                .csrf(AbstractHttpConfigurer::disable)
+
+                // Enable default Cross-Origin Resource Sharing (CORS) settings.
+                .cors(Customizer.withDefaults())
+
+                // Define authorization rules for HTTP requests.
+                .authorizeHttpRequests(req ->
+                        req.requestMatchers("/login", "/register", "/all", "/active/**","api/**","/images/**").permitAll() // Allow open access to login and registration endpoints.
+                                .requestMatchers("/apxi/**").hasAuthority("USER") // Restrict access to API endpoints to users with "USER" authority.
+                )
+
+                // Set a custom UserDetailsService for user authentication.
+                .userDetailsService(userService)
+
+                // Configure session management to be stateless for JWT-based authentication.
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+
+                // Add the custom JWT filter before Spring's default authentication filter.
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+
+                // Build and return the configured SecurityFilterChain.
+                .build();
+    }
+
+   @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration=new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://127.0.0.1:4200"));
@@ -86,8 +102,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**",configuration);
         return source;
     }
-
-
-
-
 }

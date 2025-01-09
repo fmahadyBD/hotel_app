@@ -1,10 +1,11 @@
 package com.f.backend.entity;
 
-
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.f.backend.enums.Role;
 
 import java.sql.Date;
 import java.util.Collection;
@@ -12,23 +13,22 @@ import java.util.List;
 
 @Entity
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true,nullable = false)
     private String email;
     @Column(nullable = false)
     private String password;
     @Column(unique = true)
     private String cell;
     private String address;
-    private Date dob;
+    private Date dob; //sql
     private String gender;
     private String image;
     @Column(nullable = false)
-    private  boolean active;
+    private boolean active;
     private boolean isLock;
 
 
@@ -38,11 +38,23 @@ public class User implements UserDetails {
     @OneToMany
     private List<Token> tokens;
 
-
     public User() {
     }
 
-    public User(long id, String name, String email, String password, String cell, String address, Date dob, String gender, String image, boolean active, boolean isLock, Role role, List<Token> tokens) {
+    public User(long id, 
+                String name, 
+                String email, 
+                String password, 
+                String cell, 
+                String address, 
+                Date dob, 
+                String gender, 
+                String image, 
+                boolean active, 
+                boolean isLock, 
+                Role role, 
+                List<Token> tokens) {
+                    
         this.id = id;
         this.name = name;
         this.email = email;
@@ -84,7 +96,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
@@ -192,6 +203,4 @@ public class User implements UserDetails {
     public void setTokens(List<Token> tokens) {
         this.tokens = tokens;
     }
-
-
 }
