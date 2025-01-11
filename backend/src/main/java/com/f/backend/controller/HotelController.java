@@ -1,6 +1,8 @@
 package com.f.backend.controller;
 
+import com.f.backend.custom_exception.ResourceNotFound;
 import com.f.backend.entity.Hotel;
+import com.f.backend.response.ApiResponse;
 import com.f.backend.service.HotelService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import static org.springframework.http.HttpStatus.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -103,6 +106,17 @@ public class HotelController {
             @RequestParam(value = "image", required = true) MultipartFile file) throws IOException {
         Hotel updateHotel = hotelService.updateHotel(id, hotel, file);
         return ResponseEntity.ok(updateHotel);
+
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<ApiResponse> getAllHotel() {
+        try {
+            List<Hotel> allHotels = hotelService.getAllHotel();
+            return ResponseEntity.status(OK).body(new ApiResponse("All Hotel Data", allHotels));
+        } catch (ResourceNotFound e) {
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
+        }
 
     }
 
