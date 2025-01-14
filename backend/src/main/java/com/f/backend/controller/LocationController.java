@@ -1,5 +1,17 @@
 package com.f.backend.controller;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -13,20 +25,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.EntityNotFoundException;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/location")
@@ -82,7 +80,7 @@ public class LocationController {
         Map<String, String> response = new HashMap<>();
         try {
             locationService.deleteLocation(id);
-            response.put("message", "Error delete the location");
+            response.put("message", "Location deleted, id:" + id);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             response.put("message", "Error dekete location: " + e.getMessage());
@@ -93,24 +91,41 @@ public class LocationController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Map<String, String>> updateLocation(
             @PathVariable int id,
-            @RequestBody Location location,
-            @RequestPart(value = "image") MultipartFile file
-
-    ) {
+            @RequestPart(value = "location") String locationJson,
+            @RequestParam(value = "image", required = false) MultipartFile file)
+            throws JsonMappingException, JsonProcessingException {
 
         Map<String, String> response = new HashMap<>();
-        try {
-            locationService.upLocation(id, location, file);
-            response.put("message", "Location update successfully");
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-        } catch (IOException exception) {
-            response.put("message ", "Error updateing in the image");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-        } catch (Exception e) {
-            response.put("message", "Error update location: " + e.getMessage());
+
+        // Validate inputs
+        if (locationJson == null || locationJson.isEmpty() || id <= 0) {
+            response.put("message", "Invalid data: location JSON or ID is missing.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
+        if (file == null || file.isEmpty()) {
+            response.put("message", "Invalid data: Image file is missing.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Location newLocation = objectMapper.readValue(locationJson, Location.class);
+
+        try {
+            Location location = locationService.upLocation(id, newLocation, file);
+            response.put("message", "Location updated successfully.");
+            response.put("locationId", String.valueOf(location.getId()));
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (EntityNotFoundException e) {
+            response.put("message", "Location not found: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        } catch (IOException e) {
+            response.put("message", "Error processing the image: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        } catch (Exception e) {
+            response.put("message", "Unexpected error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
     @GetMapping("/{id}")

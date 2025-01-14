@@ -1,24 +1,30 @@
 package com.f.backend.controller;
 
-import com.f.backend.custom_exception.ResourceNotFound;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.f.backend.entity.Hotel;
-import com.f.backend.response.ApiResponse;
 import com.f.backend.service.HotelService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import static org.springframework.http.HttpStatus.*;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/hotel")
@@ -47,22 +53,38 @@ public class HotelController {
     @PostMapping("/save")
     public ResponseEntity<Map<String, String>> saveHotel(
             @RequestPart(value = "hotel") String hotelJson,
-            @RequestParam(value = "image") MultipartFile file
+            @RequestParam(value = "image") MultipartFile file) throws JsonProcessingException, IOException {
 
-    ) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Hotel hotel = objectMapper.readValue(hotelJson, Hotel.class);
-        try {
-            hotelService.saveHotel(hotel, file);
-            Map<String, String> response = new HashMap<>();
-            response.put("Message ", "Hotel Added Successfully!");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (IOException e) {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("Message", "Hotel add failed!");
-            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        Map<String, String> response = new HashMap<>();
+
+        // Validate hotel JSON
+        if (hotelJson == null || hotelJson.isEmpty()) {
+            response.put("message", "Invalid data: Hotel JSON is missing or empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
+        // Validate image file
+        if (file == null || file.isEmpty()) {
+            response.put("message", "Invalid data: Hotel image file is missing or empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Hotel hotel = objectMapper.readValue(hotelJson, Hotel.class);
+
+        try {
+            // Save the hotel and file using your service method
+            // Hotel savedHotel = hotelService.saveHotel(hotel, file);
+
+            response.put("message", "Hotel added successfully!");
+            // response.put("hotelId", String.valueOf(savedHotel.getId())); // Uncomment
+            // when ready
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        } catch (Exception e) {
+            response.put("message", "Unexpected error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
     @GetMapping("/{id}")
@@ -109,15 +131,17 @@ public class HotelController {
 
     }
 
-    @GetMapping("/")
-    public ResponseEntity<ApiResponse> getAllHotel() {
-        try {
-            List<Hotel> allHotels = hotelService.getAllHotel();
-            return ResponseEntity.status(OK).body(new ApiResponse("All Hotel Data", allHotels));
-        } catch (ResourceNotFound e) {
-            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
-        }
+    // @GetMapping("/")
+    // public ResponseEntity<ApiResponse> getAllHotel() {
+    // try {
+    // List<Hotel> allHotels = hotelService.getAllHotel();
+    // return ResponseEntity.status(OK).body(new ApiResponse("All Hotel Data",
+    // allHotels));
+    // } catch (ResourceNotFound e) {
+    // return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),
+    // null));
+    // }
 
-    }
+    // }
 
 }

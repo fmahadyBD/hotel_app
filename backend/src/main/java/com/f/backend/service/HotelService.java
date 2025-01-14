@@ -46,7 +46,7 @@ public class HotelService {
      * @param imageFile  MultipartFile representing the image file.
      * @throws IOException if there's an error during file upload.
      */
-    public void saveHotel(Hotel hotel, MultipartFile imageFile) throws IOException {
+    public Hotel saveHotel(Hotel hotel, MultipartFile imageFile) throws IOException {
         if (imageFile != null && !imageFile.isEmpty()) {
             String imageFileName = saveImage(imageFile, hotel);
             hotel.setImage(imageFileName);
@@ -57,7 +57,7 @@ public class HotelService {
                 .orElseThrow(() -> new EntityNotFoundException("Location not found with ID: " + hotel.getLocation().getId()));
         hotel.setLocation(location);
 
-        hotelRepository.save(hotel);
+        return hotelRepository.save(hotel);
     }
 
     /**
