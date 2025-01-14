@@ -74,7 +74,7 @@ public class HotelController {
 
         try {
             // Save the hotel and file using your service method
-            // Hotel savedHotel = hotelService.saveHotel(hotel, file);
+            Hotel savedHotel = hotelService.saveHotel(hotel, file);
 
             response.put("message", "Hotel added successfully!");
             // response.put("hotelId", String.valueOf(savedHotel.getId())); // Uncomment
@@ -111,14 +111,33 @@ public class HotelController {
     @GetMapping("/h/searchhotel")
     public ResponseEntity<List<Hotel>> findHotelByLocationName(
             @RequestParam(value = "locationName") String locationName) {
-        List<Hotel> hotels = hotelService.findHotelByLocationName(locationName);
-        return ResponseEntity.ok(hotels);
+        try {
+            List<Hotel> hotels = hotelService.findHotelByLocationName(locationName);
+
+            if (hotels.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            return ResponseEntity.ok(hotels);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @GetMapping("/h/searchhotelname")
     public ResponseEntity<Hotel> findHotelByName(@RequestParam(value = "name") String name) {
-        Hotel hotel = hotelService.findHotelByName(name);
-        return ResponseEntity.ok(hotel);
+        try {
+            Hotel hotel = hotelService.findHotelByName(name);
+            return ResponseEntity.ok(hotel);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null); // Hotel not found
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null); // Unexpected error
+        }
     }
 
     @PutMapping("/update/{id}")
