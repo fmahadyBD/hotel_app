@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.f.backend.entity.User;
 import com.f.backend.reposiotry.UserRepository;
 import com.f.backend.response.AuthenticationResponse;
-import com.f.backend.response.Request;
 import com.f.backend.service.AuthService;
 
 @RestController
@@ -28,13 +27,14 @@ public class AuthenController {
             @RequestPart(value = "user") User user,
             @RequestParam(value = "image") MultipartFile file) {
 
-        return ResponseEntity.ok(authService.register(file, user));
+        return ResponseEntity.ok(authService.register(user));
 
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody User request) {
-        return ResponseEntity.ok(authService.authenticate(request));
+        System.out.println("In Controleer");
+        return ResponseEntity.ok(authService.authencate(request));
     }
 
 }

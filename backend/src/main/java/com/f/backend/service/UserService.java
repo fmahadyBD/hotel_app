@@ -10,18 +10,15 @@ import com.f.backend.reposiotry.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
-    
-    @Autowired
-    private UserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      return userRepository.findByEmail(username).orElseThrow(
-        ()-> new UsernameNotFoundException("Username not found by this username: "+username)
-      );
-    }
+  @Autowired
+  private UserRepository userRepository;
 
-
-
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    return userRepository.findByEmail(username)
+        .orElseThrow(
+            () -> new UsernameNotFoundException("Username not found by this username: " + username));
+  }
 
 }

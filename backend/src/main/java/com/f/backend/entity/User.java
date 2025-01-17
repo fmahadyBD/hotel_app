@@ -1,6 +1,5 @@
 package com.f.backend.entity;
 
-
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,7 +13,6 @@ import java.util.List;
 
 @Entity
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -30,9 +28,8 @@ public class User implements UserDetails {
     private String gender;
     private String image;
     @Column(nullable = false)
-    private  boolean active;
+    private boolean active;
     private boolean isLock;
-
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
@@ -40,11 +37,11 @@ public class User implements UserDetails {
     @OneToMany
     private List<Token> tokens;
 
-
     public User() {
     }
 
-    public User(int id, String name, String email, String password, String cell, String address, Date dob, String gender, String image, boolean active, boolean isLock, Role role, List<Token> tokens) {
+    public User(int id, String name, String email, String password, String cell, String address, Date dob,
+            String gender, String image, boolean active, boolean isLock, Role role, List<Token> tokens) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -82,41 +79,6 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return isLock;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return active;
     }
 
     public void setPassword(String password) {
@@ -195,5 +157,39 @@ public class User implements UserDetails {
         this.tokens = tokens;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return isLock;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return active;
+    }
 
 }
