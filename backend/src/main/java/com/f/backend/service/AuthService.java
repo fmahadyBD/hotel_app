@@ -56,7 +56,7 @@ public class AuthService {
         }
         validTokens.forEach(t -> {
             t.setLogout(true);
-        });`
+        });
         tokenRepository.saveAll(validTokens);
 
     }
