@@ -68,7 +68,7 @@ public class JwtService {
 
     }
 
-    @SuppressWarnings("unused")
+
     private boolean isTokenExprired(String token) {
         return extractExpiration(token).before(new Date());
     }
