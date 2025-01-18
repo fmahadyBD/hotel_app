@@ -37,15 +37,12 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(
-                        req -> req
-                                .requestMatchers("/login", "/register", "/api/hotel/save", "/images/**", "/api/hotel/",
-                                        "/active/**", "/api/location/**")
-                                .permitAll()
-                                // .requestMatchers("")
-                                // .hasAnyAuthority("HOTEL", "ADMIN")
-                                .requestMatchers("/api/hotel/h/searchhotel")
-                                .hasAuthority("USER"))
+                    .authorizeHttpRequests(req ->
+                    // req.requestMatchers("/login", "/register", "/all", "/active/**","api/**","/images/**").permitAll() // Allow open access to login and registration endpoints.
+                            
+                    req.requestMatchers("/**").permitAll() 
+                    // .requestMatchers("/apxi/**").hasAuthority("USER") // Restrict access to API endpoints to users with "USER" authority.
+            )
                 .userDetailsService(userService)
                 .sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
