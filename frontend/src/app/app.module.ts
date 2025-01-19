@@ -7,12 +7,14 @@ import { AddlocationComponent } from './location/addlocation/addlocation.compone
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ViewalllocationComponent } from './location/viewalllocation/viewalllocation.component';
+import { AddhotelComponent } from './hotel/addhotel/addhotel.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddlocationComponent,
-    ViewalllocationComponent
+    ViewalllocationComponent,
+    AddhotelComponent
   ],
   imports: [
     BrowserModule,
