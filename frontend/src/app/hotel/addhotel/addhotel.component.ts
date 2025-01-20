@@ -27,7 +27,10 @@ export class AddhotelComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-   
+   this.loadLocation();
+
+
+
     this.formGroup = this.formBuilder.group({
       name:['',Validators.required],
       image:['',Validators.required],
@@ -41,7 +44,7 @@ export class AddhotelComponent implements OnInit{
   }
 
   // Fie selection method
-  onFileSeclected(evt: Event):void{
+  onFilesSelected(evt: Event):void{
     const input = evt.target as HTMLInputElement;
     if(input?.files && input.files[0]){
       this.image = input.files[0];
