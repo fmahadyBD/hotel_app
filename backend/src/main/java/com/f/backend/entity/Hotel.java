@@ -1,5 +1,7 @@
 package com.f.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -14,7 +16,10 @@ public class Hotel {
     private String name;
     private String address;
     private String rating;
+
+    @JsonProperty("maximumPrice")
     private double maximum_price;
+    @JsonProperty("minimumPrice")
     private double minimum_price;
     private String image;
 

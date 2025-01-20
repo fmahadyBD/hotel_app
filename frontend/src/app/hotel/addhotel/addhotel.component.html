@@ -1,5 +1,5 @@
 <div class="container mt-4">
-    
+
     <form action="" [formGroup]="formGroup" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
         <div class="form-group">
             <label for="">Name</label>
@@ -19,14 +19,16 @@
         <div class="form-group">
             <label for="">Maximum Price</label>
             <input type="number" class="form-control" formControlName="maximumPrice" required>
-            <div *ngIf="formGroup.get('maximumPrice')?.invalid && formGroup.get('maximumPrice')?.touched" class="text-danger">
+            <div *ngIf="formGroup.get('maximumPrice')?.invalid && formGroup.get('maximumPrice')?.touched"
+                class="text-danger">
                 Hotel Maximum Price is required!
             </div>
         </div>
         <div class="form-group">
             <label for="">Minimum Price</label>
             <input type="number" class="form-control" formControlName="minimumPrice" required>
-            <div *ngIf="formGroup.get('minimumPrice')?.invalid && formGroup.get('minimumPrice')?.touched" class="text-danger">
+            <div *ngIf="formGroup.get('minimumPrice')?.invalid && formGroup.get('minimumPrice')?.touched"
+                class="text-danger">
                 Hotel Minimum Price is required!
             </div>
         </div>
@@ -39,28 +41,26 @@
             </div>
         </div>
 
-
         <div class="mb-3">
             <label for="">Location</label>
             <select name="" id="" formControlName="location" class="form-select" required>
-            <option [ngValue]="l.id" *ngFor="let l of locations">{{l.name}}</option>
+                <option [ngValue]="l.id" *ngFor="let l of locations">{{l.name}}</option>
             </select>
             <div *ngIf="formGroup.get('location')?.invalid && formGroup.get('location')?.touched" class="text-danger">
                 Select a location!
             </div>
         </div>
 
-
         <div class="mb-3">
-            <label for="">Upload Image</label>
-            <input type="file" (change)="onFilesSelected($event)"  class="form-control" >
-            <!-- <div  class="text-danger">
-                *ngIf="!image"
+            <label for="file">Upload Image</label>
+            <input type="file" (change)="onFilesSelected($event)" class="form-control">
+            <div *ngIf="!image" class="text-danger">
                 Select an image!
-            </div> -->
+            </div>
         </div>
-        <button class="btn btn-success bt-6"  >Save</button>
-        <!-- [disabled]="formGroup.invalid" -->
+        
+        <button class="btn btn-primary bt-3" type="submit" [disabled]="formGroup.invalid">Submit</button>
+
     </form>
 
 </div>
