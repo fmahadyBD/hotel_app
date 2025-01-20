@@ -33,7 +33,6 @@ export class AddhotelComponent implements OnInit{
 
     this.formGroup = this.formBuilder.group({
       name:['',Validators.required],
-      image:['',Validators.required],
       address:['',Validators.required],
       maximumPrice:['',Validators.required],
       minimumPrice:['',Validators.required],
@@ -44,7 +43,7 @@ export class AddhotelComponent implements OnInit{
   }
 
   // Fie selection method
-  onFilesSelected(evt: Event):void{
+  onFileSelected(evt: Event):void{
     const input = evt.target as HTMLInputElement;
     if(input?.files && input.files[0]){
       this.image = input.files[0];
@@ -67,6 +66,7 @@ export class AddhotelComponent implements OnInit{
   onSubmit(){
     if(this.formGroup.invalid){
       alert("Plase fill all the required fileds with valid data");
+      return;
     }
     if(this.image){
       const hotel:Hotel ={
