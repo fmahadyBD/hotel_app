@@ -1,5 +1,7 @@
 package com.f.backend.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +27,9 @@ public class AuthenController {
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestPart(value = "user") User user,
-            @RequestParam(value = "image") MultipartFile file) {
+            @RequestParam(value = "image") MultipartFile file) throws IOException {
 
-        return ResponseEntity.ok(authService.register(user));
+        return ResponseEntity.ok(authService.register(user,file));
 
     }
 

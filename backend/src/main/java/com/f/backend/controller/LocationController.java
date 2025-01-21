@@ -40,13 +40,6 @@ public class LocationController {
     @GetMapping("/")
     public ResponseEntity<List<Location>> getAllLocation() {
         List<Location> allLocation = locationService.getAllLocation();
-          // Map the locations to their names
-    List<String> locationNames = allLocation.stream()
-                                             .map(Location::getName) // Assuming getName() returns the location name
-                                             .collect(Collectors.toList());
-
-    // Print the names (optional)
-    System.out.println(locationNames);
         return ResponseEntity.ok(allLocation);
     }
 
