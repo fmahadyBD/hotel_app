@@ -1,11 +1,14 @@
 package com.f.backend.service;
 
 import jakarta.mail.MessagingException;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.f.backend.entity.Token;
 import com.f.backend.entity.User;
@@ -15,7 +18,12 @@ import com.f.backend.reposiotry.TokenRepository;
 import com.f.backend.reposiotry.UserRepository;
 import com.f.backend.response.AuthenticationResponse;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -26,6 +34,9 @@ public class AuthService {
     private final TokenRepository tokenRepository;
     private final AuthenticationManager authenticationManager;
     private final EmailService emailService;
+
+    @Value("${image.upload.dir}")
+    private String uploadDir;
 
     public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService,
             TokenRepository tokenRepository, AuthenticationManager authenticationManager, EmailService emailService) {
@@ -61,17 +72,25 @@ public class AuthService {
 
     }
 
-    public AuthenticationResponse register(User user) {
+    public AuthenticationResponse register(User user, MultipartFile imageFile) throws IOException {
         // We check that Already any user Exists with this email
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
 
             return new AuthenticationResponse(null, "User Already Exists");
         }
+        String imageFileName = "";
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            imageFileName = savedImage(imageFile, user);
+
+        }
+
         // Encode user password to save DB
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.valueOf("USER"));
         user.setLock(true);
         user.setActive(false);
+        user.setImage(imageFileName);
 
         userRepository.save(user);
         String jwt = jwtService.generateToken(user);
@@ -130,6 +149,19 @@ public class AuthService {
         } else {
             return "Invalid Activation Token!";
         }
+
+    }
+
+    private String savedImage(MultipartFile file, User user) throws IOException {
+        Path uploadPath = Paths.get(uploadDir, "users");
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+        String fileName = user.getName() + "_" + UUID.randomUUID();
+        Path filePath = uploadPath.resolve(fileName);
+
+        Files.copy(file.getInputStream(), filePath);
+        return fileName;
 
     }
 

@@ -31,12 +31,20 @@ export class AuthService {
       cell: string;
       address: string;
       dob: Date;
-      geneder: string;
+      gender: string;
       image: string;
 
 
-    }): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(this.baseUrl + '/register', user, { headers: this.headers })
+    },
+  image:File
+  ): Observable<AuthResponse> {
+
+    const formData = new FormData();
+    formData.append('user',new Blob([JSON.stringify(user)],{type:'application/json'}));
+    formData.append('image',image)
+
+
+    return this.http.post<AuthResponse>(this.baseUrl + '/register', formData) 
       .pipe(
         map(
           (response: AuthResponse) => {

@@ -53,7 +53,7 @@
 
         <div class="mb-3">
             <label for="file">Upload Image</label>
-            <input type="file" (change)="onFilesSelected($event)" class="form-control">
+            <input type="file" (change)="onFileSelected($event)" class="form-control">
             <div *ngIf="!image" class="text-danger">
                 Select an image!
             </div>

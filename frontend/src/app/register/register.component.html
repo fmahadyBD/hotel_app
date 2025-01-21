@@ -1,0 +1,85 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center">Registration</h2>
+            <form action="" [formGroup]="registrationForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label for="">Name</label>
+                    <input type="text" class="form-control" formControlName="name">
+                    <div *ngIf="registrationForm.get('name')?.invalid && registrationForm.get('name')?.touched"
+                        class="text-danger">
+                        <small *ngIf="registrationForm.get('name')?.errors?.['required']">Name is required!</small>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="">Email</label>
+                    <input type="text" class="form-control" formControlName="email">
+                    <div *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched"
+                        class="text-danger">
+                        <small *ngIf="registrationForm.get('email')?.errors?.['required']">Email is required!</small>
+                        <small *ngIf="registrationForm.get('email')?.errors?.['email']">Invalid email address!</small>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="">Password</label>
+                    <input type="password" class="form-control" formControlName="password">
+                    <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched"
+                        class="text-danger">
+                        <small *ngIf="registrationForm.get('password')?.errors?.['required']">Password is
+                            required!</small>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="">Confirmed Password</label>
+                    <input type="password" class="form-control" formControlName="confirmPassword">
+                    <div *ngIf="registrationForm.hasError('mismatch') && registrationForm.get('confirmPassword')?.touched"
+                        class="text-danger">
+                        <small> password is not match!</small>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="">Cell number</label>
+                    <input type="text" class="form-control" formControlName="cell">
+                </div>
+
+                <div class="mb-3">
+                    <label for="">Address</label>
+                    <input type="text" class="form-control" formControlName="address">
+                </div>
+
+                <div class="mb-3">
+                    <label for="">Date of Birth</label>
+                    <input type="date" class="form-control" formControlName="dob">
+                </div>
+
+                <div class="mb-3">
+                    <label for="">Gender</label>
+                    <select class="form-select" formControlName="gender">
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="file">Upload Image</label>
+                    <input type="file" (change)="onFileSelected($event)" class="form-control">
+                    <div *ngIf="!image" class="text-danger">
+                        Select an image!
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary"
+                    [disabled]="registrationForm.invalid">Registration</button>
+
+            </form>
+
+            <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{errorMessage}}</div>
+            <div *ngIf="successMessage" class="alert alert-success mt-3">{{successMessage}}</div>
+        </div>
+    </div>
+</div>

@@ -8,13 +8,15 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ViewalllocationComponent } from './location/viewalllocation/viewalllocation.component';
 import { AddhotelComponent } from './hotel/addhotel/addhotel.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddlocationComponent,
     ViewalllocationComponent,
-    AddhotelComponent
+    AddhotelComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
