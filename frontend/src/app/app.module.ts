@@ -9,6 +9,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ViewalllocationComponent } from './location/viewalllocation/viewalllocation.component';
 import { AddhotelComponent } from './hotel/addhotel/addhotel.component';
 import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { RegisterComponent } from './register/register.component';
     AddlocationComponent,
     ViewalllocationComponent,
     AddhotelComponent,
-    RegisterComponent
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
