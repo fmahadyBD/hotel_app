@@ -28,9 +28,8 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/login'])
   }
   ngOnInit(): void {
-    this.authService.userRole$.subscribe(
-      role => {
-        console.log('User Role:', role);
+    this.authService.userRole$.subscribe(role => {
+        // console.log('User Role issss:', role);
         this.isAdmin = role === 'ADMIN';
         this.isHotel = role === 'HOTEL';
         this.isUser = role === 'USER';
