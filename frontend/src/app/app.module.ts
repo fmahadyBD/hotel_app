@@ -10,6 +10,10 @@ import { ViewalllocationComponent } from './location/viewalllocation/viewallloca
 import { AddhotelComponent } from './hotel/addhotel/addhotel.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { ViewallhotelComponent } from './hotel/viewallhotel/viewallhotel.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { AddRoomComponent } from './room/add-room/add-room.component';
+import { ViewAllRoomComponent } from './room/view-all-room/view-all-room.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,11 @@ import { LoginComponent } from './login/login.component';
     ViewalllocationComponent,
     AddhotelComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    ViewallhotelComponent,
+    HomePageComponent,
+    AddRoomComponent,
+    ViewAllRoomComponent
   ],
   imports: [
     BrowserModule,
