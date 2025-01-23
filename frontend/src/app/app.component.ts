@@ -7,37 +7,37 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'frontend';
 
   isAdmin = false;
   isHotel = false;
-  isUser  = false;
+  isUser = false;
+  isLogin = false;
 
-  userRole: string |  null = null;
+  userRole: string | null = null;
   constructor(
-    public authService:AuthService,
+    public authService: AuthService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
 
-  ){}
+  ) { }
 
-
-
-  logout():void{
+  logout(): void {
     this.authService.logout();
     this.router.navigate(['/login'])
   }
   ngOnInit(): void {
     this.authService.userRole$.subscribe(
       role => {
+        console.log('User Role:', role);
         this.isAdmin = role === 'ADMIN';
         this.isHotel = role === 'HOTEL';
         this.isUser = role === 'USER';
       }
-        
+
     );
-   
+
   }
-  
+
 }

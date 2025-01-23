@@ -9,9 +9,11 @@ import { AdminGuard } from './guards/admin.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { ViewallhotelComponent } from './hotel/viewallhotel/viewallhotel.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { ViewAllRoomComponent } from './room/view-all-room/view-all-room.component';
+import { AddRoomComponent } from './room/add-room/add-room.component';
 const routes: Routes = [
 
-  { path: '', component: HomePageComponent },
+  // { path: 'register', component: HomePageComponent },
 
   //location
   { path: 'add-location', component: AddlocationComponent },
@@ -20,6 +22,10 @@ const routes: Routes = [
   //hotel
   { path: 'add-hotel', component: AddhotelComponent, canActivate: [AdminGuard] },
   { path: 'view-all-hotel', component: ViewallhotelComponent },
+
+  //room
+  { path: 'add-room', component: AddRoomComponent },
+  { path: 'view-all-room', component: ViewAllRoomComponent },
 
   //auth
   { path: 'register', component: RegisterComponent },

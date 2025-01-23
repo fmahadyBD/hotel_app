@@ -18,14 +18,14 @@
 
 
         <!-- Admin properties -->
-        <li class="nav-item dropdown" *ngIf="isAdmin || isHotel">
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Add
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" *ngIf="isAdmin" href="/add-hotel">Add Hotel/a></li>
-            <li><a class="dropdown-item" *ngIf="isAdmin" href="/view-all-hotel">Add Location</a></li>
-            <li><a class="dropdown-item" *ngIf="isHotel" href="/view-all-hotel">Add Room</a></li>
+            <li><a class="dropdown-item" *ngIf="isAdmin" href="/add-hotel">Add Hotel</a></li>
+            <li><a class="dropdown-item" *ngIf="isAdmin" href="/add-location">Add Location</a></li>
+            <li><a class="dropdown-item"  href="/add-room'">Add Room</a></li>
           </ul>
         </li>
 
@@ -33,10 +33,15 @@
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
-
-
-        <button class="btn btn-outline-success" type="submit" (click)="authService.logout">Logout</button>
       </form>
+
+
+      <!-- Auth Buttons -->
+      <button class="btn btn-outline-success ms-2" (click)="logout()">Logout</button>
+
+      <!-- <button class="btn btn-outline-success ms-2" *ngIf="isLogin" (click)="logout()">Logout</button> -->
+      <!-- <a class="btn btn-success ms-2" *ngIf="!isLogin" href="/login">Login</a> -->
+
     </div>
   </div>
 </nav>

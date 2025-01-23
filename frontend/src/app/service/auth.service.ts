@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { AuthResponse } from '../model/AuthResponse';
 import { isPlatformBrowser } from '@angular/common';
-import { response } from 'express';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +14,32 @@ export class AuthService {
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   private userRoleSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+
+
+
   public userRole$: Observable<string | null> = this.userRoleSubject.asObservable();
 
+  
 
   constructor(
     private http: HttpClient,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  ) 
+   {
+
+    console.log("In constractor ");
+    if (this.isBrowser()) {
+      const role = this.getUserRole();
+      console.log('This is the role:', role);
+      if (role) {
+        this.userRoleSubject.next(role);
+      }
+    }
+
+    console.log("In constractor fotter");
+    
+   }
 
   register(
     user: {
@@ -94,7 +112,8 @@ export class AuthService {
     if (this.isBrowser()) {
       return localStorage.getItem('userRole');
     }
-    return null;
+    // return null;
+    return localStorage.getItem('userRole');
   }
 
 
@@ -105,7 +124,7 @@ export class AuthService {
 
   isAdminOrHotel(): boolean {
     const role = this.getUserRole();
-    return role === 'ADMIN' || role === 'ROLE';
+    return role === 'ADMIN' || role === 'HOTEL';
   }
 
   isHotel(): boolean {
@@ -119,7 +138,7 @@ export class AuthService {
 
   isTokenExpired(token: string): boolean {
     const decodeToken = this.decodeToken(token);
-    const expire = decodeToken.exp * 10000;
+    const expire = decodeToken.exp * 1000;
     return Date.now() > expire;
   }
 
@@ -150,15 +169,30 @@ export class AuthService {
   }
 
 
+  // private isBrowser(): boolean {
+  //   return isPlatformBrowser(this.platformId);
+  // }
   private isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
+    const isBrowser = isPlatformBrowser(this.platformId);
+    console.log('Is this a browser?', isBrowser);  
+    return isBrowser;
   }
 
 
+  // private decodeToken(token: string) {
+  //   const payload = token.split('.')[1];//sbuject,role,expired
+  //   return JSON.parse(atob(payload));
+
+  // }
 
   private decodeToken(token: string) {
-    const payload = token.split('.')[1];//sbuject,role,expired
-    return JSON.parse(atob(payload));
+    try {
+        const payload = token.split('.')[1];
+        return JSON.parse(atob(payload));
+    } catch (error) {
+        console.error('Error decoding token:', error);
+        return null;
+    }
+}
 
-  }
 }
