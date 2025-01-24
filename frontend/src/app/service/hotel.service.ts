@@ -18,7 +18,13 @@ export class HotelService {
       catchError(this.handleError)
     );
   }
+  getHotelById(id:number):Observable<Hotel>{
+    return this.httpClent.get<Hotel>(this.baseUrl+id)
+    .pipe(
+      catchError(this.handleError)
+    );
 
+  }
   private handleError(error: any){
     console.error("An error occured: ",error);
     return throwError(()=> new Error(error.message || "Server Error!"));

@@ -16,16 +16,26 @@ export class AdminGuard implements CanActivate
   ){}
 
 
+  // canActivate(): boolean {
+  //   if(this.authService.isAdmin()){
+  //     return true;
+  //   }else{
+  //     this.router.navigate(['/login']);
+  //     return false;
+  //   }
+     
+    
+  // }
   canActivate(): boolean {
-    if(this.authService.isAdmin()){
+    if (this.authService.isLoggedIn() && this.authService.isAdmin()) {
       return true;
-    }else{
+    } else {
+      console.log("Come in auth service");
       this.router.navigate(['/login']);
       return false;
     }
-     
-    
   }
+  
 
 
 }

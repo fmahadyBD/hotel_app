@@ -35,7 +35,6 @@ public class AuthenController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody User request) {
-        System.out.println("In Controleer");
         return ResponseEntity.ok(authService.authencate(request));
     }
 

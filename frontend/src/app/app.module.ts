@@ -14,6 +14,7 @@ import { ViewallhotelComponent } from './hotel/viewallhotel/viewallhotel.compone
 import { HomePageComponent } from './home-page/home-page.component';
 import { AddRoomComponent } from './room/add-room/add-room.component';
 import { ViewAllRoomComponent } from './room/view-all-room/view-all-room.component';
+import { HotelDetailsComponent } from './hotel/hotel-details/hotel-details.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ViewAllRoomComponent } from './room/view-all-room/view-all-room.compone
     ViewallhotelComponent,
     HomePageComponent,
     AddRoomComponent,
-    ViewAllRoomComponent
+    ViewAllRoomComponent,
+    HotelDetailsComponent
   ],
   imports: [
     BrowserModule,

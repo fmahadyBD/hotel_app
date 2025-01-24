@@ -1,1 +1,19 @@
-<p>viewallhotel works!</p>
+<div class="container">
+    <p>All Hotels</p>
+  
+    <div class="row">
+      <div class="card md-4 m-2" style="width: 18rem" *ngFor="let hotel of hotels">
+        <img
+          [src]="'http://localhost:8080/images/hotels/' + hotel.image"
+          class="card-img-top"
+          alt="{{ hotel.name }}"
+        />
+        <div class="card-body">
+          <h5 class="card-title">Name: {{ hotel.name }}</h5>
+          <p>Location: {{hotel.location.name}}</p>
+          <a href="/hotel/{{ hotel.id }}" class="btn btn-primary">More Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,52 @@
+<div class="container my-5">
+
+  <a href="view-all-hotel" class="btn btn-primary">View All Hotel</a>
+    <!-- Hotel Name -->
+    <h1 class="text-center text-primary mb-4">{{ hotel.name }}</h1>
+  
+    <!-- Hotel Image -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-6">
+        <img
+          [src]="'http://localhost:8080/images/hotels/' + hotel.image"
+          class="img-fluid rounded shadow"
+          alt="{{ hotel.name }}"
+        />
+      </div>
+    </div>
+  
+    <!-- Location -->
+    <p class="text-muted text-center">📍 Location: {{ hotel.location.name }}</p>
+  
+    <!-- Price Range -->
+    <div class="row justify-content-center mt-4">
+      <div class="col-md-8">
+        <table class="table table-bordered text-center">
+          <thead class="bg-primary text-white">
+            <tr>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ hotel.minimumPrice }}</td>
+              <td>{{ hotel.maximumPrice }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <!-- Rating -->
+    <div class="text-center mt-4">
+      <h4 class="text-warning">⭐ Rating: {{ hotel.rating }}</h4>
+    </div>
+  
+    <!-- Address -->
+    <div class="mt-4">
+      <h4 class="text-primary">📬 Address</h4>
+      <p class="text-muted">{{ hotel.address }}</p>
+    </div>
+  </div>
+  
