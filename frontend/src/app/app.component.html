@@ -1,63 +1,48 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Hotel Booking</a>
-
+    <a class="navbar-brand" href="/">ABC Turist</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/view-all-hotel">Hotels</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active"  *ngIf="isAdmin || isHotel" aria-current="page" href="/add-location">Add Location</a>
-        </li>
 
-        <!-- Admin properties -->
-        <!-- <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="isAdmin || isHotel">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Add
+            Manage 
           </a>
           <ul class="dropdown-menu">
-            <li  ><a class="dropdown-item"  href="/add-hotel">Add Hotel</a></li>
-            <li *ngIf="isAdmin || isHotel" ><a class="dropdown-item"  href="/add-location">Add Location</a></li>
-
-            <li><a class="dropdown-item"  href="/add-room'">Add Room</a></li>
+            <li><a class="dropdown-item" *ngIf="isAdmin" href="/add-location"> ADD LOCATION </a></li>
+            <li><a class="dropdown-item" *ngIf="isAdmin" href="/add-hotel"> ADD HOTEL </a></li>
+            <li><a class="dropdown-item" *ngIf="isHotel" href="/add-room"> ADD ROOM </a></li>
           </ul>
-        </li> -->
+        </li>
 
         <li class="nav-item dropdown" >
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Hotel
+            Our Services
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/hotel">View Hotel</a></li>
-            <!-- <li *ngIf="isAdmin || isHotel"><a class="dropdown-item" href="/hotel-create">Create Hotel</a></li> -->
+            <li><a class="dropdown-item" href="/view-all-location"> ALL locations </a></li>
+            <li><a class="dropdown-item" href="/view-all-hotel"> All Hotels </a></li>
+
           </ul>
         </li>
-
-
-
 
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-success me-2" type="submit">Search</button>
+        <button class="btn btn-outline-danger me-2"  *ngIf="isLogin" (click)="authService.logout()"  type="submit">LOGOUT</button>
       </form>
 
-
-      <!-- Auth Buttons -->
-      <button class="btn btn-outline-success ms-2" (click)="logout()">Logout</button>
-
-      <!-- <button class="btn btn-outline-success ms-2" *ngIf="isLogin" (click)="logout()">Logout</button> -->
-      <!-- <a class="btn btn-success ms-2" *ngIf="!isLogin" href="/login">Login</a> -->
-
+      <a class="btn btn-outline-success me-2" *ngIf="isLogout" href="/login">LOGIN</a>
+      <a class="btn btn-outline-success me-2" *ngIf="isLogout" href="/register">REGISTER</a>
+      <!-- <a class="btn btn-outline-danger"  *ngIf="isLogin" (click)="authService.logout()" type="button">LOGOUT</a> -->
     </div>
   </div>
 </nav>

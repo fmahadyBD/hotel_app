@@ -11,9 +11,10 @@ import { ViewallhotelComponent } from './hotel/viewallhotel/viewallhotel.compone
 import { HomePageComponent } from './home-page/home-page.component';
 import { ViewAllRoomComponent } from './room/view-all-room/view-all-room.component';
 import { AddRoomComponent } from './room/add-room/add-room.component';
+import { HotelDetailsComponent } from './hotel/hotel-details/hotel-details.component';
 const routes: Routes = [
 
-  // { path: 'register', component: HomePageComponent },
+  { path: '', component: HomePageComponent },
 
   //location
   { path: 'add-location', component: AddlocationComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   //hotel
   { path: 'add-hotel', component: AddhotelComponent, canActivate: [AdminGuard] },
   { path: 'view-all-hotel', component: ViewallhotelComponent },
+  { path: 'hotel/:id',component:HotelDetailsComponent},
 
   //room
   { path: 'add-room', component: AddRoomComponent },

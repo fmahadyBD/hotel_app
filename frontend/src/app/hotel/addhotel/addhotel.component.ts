@@ -77,7 +77,7 @@ export class AddhotelComponent implements OnInit{
       this.hotelService.createHotel(hotel,this.image).subscribe({
         next:res =>{
           console.log('Hotel Added Successfuly', hotel);
-          this.router.navigate(['view-all-location']);
+          this.router.navigate(['view-all-hotel']);
         },
         error: err=>{
           console.log('Error adding hotel');
