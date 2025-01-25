@@ -1,1 +1,73 @@
-<p>add-room works!</p>
+<div class="container mt-4">
+
+    <form action="" [formGroup]="formGroup" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="">CODE NAME</label>
+            <input type="text" class="form-control" formControlName="name" required>
+            <div *ngIf="formGroup.get('name')?.invalid && formGroup.get('name')?.touched" class="text-danger">
+                Room code name is required!
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="">AREA</label>
+            <input type="number" class="form-control" formControlName="area" required>
+            <div *ngIf="formGroup.get('area')?.invalid && formGroup.get('area')?.touched"
+                class="text-danger">
+               Area is required!
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="">Price</label>
+            <input type="number" class="form-control" formControlName="price" required>
+            <div *ngIf="formGroup.get('price')?.invalid && formGroup.get('price')?.touched"
+                class="text-danger">
+                Room Price is required!
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="">Adult Not</label>
+            <input type="number" class="form-control" formControlName="adultNo" required>
+            <div *ngIf="formGroup.get('adultNo')?.invalid && formGroup.get('adultNo')?.touched"
+                class="text-danger">
+                Number of Adult is required!
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="">Child Not</label>
+            <input type="number" class="form-control" formControlName="childNo" required>
+            <div *ngIf="formGroup.get('childNo')?.invalid && formGroup.get('childNo')?.touched"
+                class="text-danger">
+                Number of Child is required!
+            </div>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="">Hotel Name</label>
+            <select name="" id="" formControlName="hotel" class="form-select" required>
+                <option [ngValue]="h.id" *ngFor="let h of hotels">{{h.name}}</option>
+            </select>
+            <div *ngIf="formGroup.get('hotel')?.invalid && formGroup.get('hotel')?.touched" class="text-danger">
+                Select a Hotel!
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="file">Upload Image</label>
+            <input type="file" (change)="onFileSelected($event)" class="form-control">
+            <div *ngIf="!image" class="text-danger">
+                Select an image!
+            </div>
+        </div>
+        
+        <button class="btn btn-primary bt-3" type="submit" [disabled]="formGroup.invalid">Submit</button>
+
+    </form>
+
+</div>
