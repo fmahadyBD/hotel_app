@@ -1,41 +1,22 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, GuardResult, MaybeAsync, Router, RouterStateSnapshot } from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
 
+/*
+This After Angular 15
+Recommendation:
+For new Angular projects (Angular 15+): Use Type 01 (Functional Guard) as it aligns with Angular's modern features and coding style.
+*/
 
+export const AdminGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AdminGuard implements CanActivate
-{
-  constructor(
-    private authService: AuthService,
-    private router:Router,
-    @Inject(PLATFORM_ID) private platform:Object
-  ){}
-
-
-  // canActivate(): boolean {
-  //   if(this.authService.isAdmin()){
-  //     return true;
-  //   }else{
-  //     this.router.navigate(['/login']);
-  //     return false;
-  //   }
-     
-    
-  // }
-  canActivate(): boolean {
-    if (this.authService.isLoggedIn() && this.authService.isAdmin()) {
-      return true;
-    } else {
-      console.log("Come in auth service");
-      this.router.navigate(['/login']);
-      return false;
-    }
+  if (authService.isLoggedIn() && authService.isAdmin()) {
+    return true; // Allow navigation
+  } else {
+    console.log("Unauthorized access, redirecting to login.");
+    router.navigate(['/login']);
+    return false; // Block navigation
   }
-  
-
-
-}
+};

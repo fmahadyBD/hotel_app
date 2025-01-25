@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: '', component: HomePageComponent },
 
   //location
-  { path: 'add-location', component: AddlocationComponent },
+  { path: 'add-location', component: AddlocationComponent ,canActivate:[AdminGuard]},
   { path: 'view-all-location', component: ViewalllocationComponent},
 
   //hotel
