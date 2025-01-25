@@ -3,7 +3,11 @@ import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, GuardResult, MaybeA
 import { AuthService } from '../service/auth.service';
 
 
-
+/*
+This before Angular 15
+Recommendation:
+For existing projects or complex logic: Use Type 02 (Class-Based Guard) for consistency with other services and more extensibility.
+*/
 @Injectable({
   providedIn: 'root',
 })
