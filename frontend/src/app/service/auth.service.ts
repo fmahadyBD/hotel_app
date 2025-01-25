@@ -129,10 +129,13 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     const token = this.getToken();
-    if (token && !this.isTokenExpired(token)) {
-      return true;
+    if(token){
+      if(!this.isTokenExpired(token)){
+        return true;
+      }else{
+        this.logout();
+      }
     }
-    this.logout(); // Automatically log out if token is expired
     return false;
   }
 
