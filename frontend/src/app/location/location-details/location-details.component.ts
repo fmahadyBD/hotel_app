@@ -10,7 +10,7 @@ import { HotelService } from '../../service/hotel.service';
   styleUrl: './location-details.component.css'
 })
 export class LocationDetailsComponent implements OnInit{
-  location:any;
+  location:any=null;
   locationId:any;
   hotels:Hotel[]=[];
 
@@ -28,7 +28,7 @@ export class LocationDetailsComponent implements OnInit{
   getLocationById(id:number){
     this.locationService.getLocationById(id).subscribe({
       next:res=>{
-        this.location=res;
+        this.location=res.locationr;
       },
       error:err=>{
         console.log(err);

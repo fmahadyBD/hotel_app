@@ -1,1 +1,38 @@
-<p>location-details works!</p>
+<div class="container my-5" >
+    <!-- View All location Button -->
+    <a href="/view-all-location" class="btn btn-danger mb-4">View All Location</a>
+  
+    <!-- location Name -->
+    <h1 class="text-center text-primary mb-4">{{ location?.name || 'Not found' }}</h1>
+  
+    <!-- location Image -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-6">
+        <img
+          [src]="'http://localhost:8080/images/locations/' + (location?.image || 'default.jpg')"
+          class="img-fluid rounded shadow"
+          alt="{{ location?.image || 'location Image' }}"
+        />
+      </div>
+    </div>
+
+
+
+  
+  <div class="container">
+    <p>All Hotels of the location</p>
+  
+    <div class="row">
+      <div class="card md-4 m-2" style="width: 18rem" *ngFor="let hotel of hotels">
+        <img
+          [src]="'http://localhost:8080/images/hotels/' + hotel.image"
+          class="card-img-top"
+          alt="{{ hotel.name }}"
+        />
+        <div class="card-body">
+          <h5 class="card-title">Name: {{ hotel.name }}</h5>
+          <a href="/hotel/{{ hotel.id }}" class="btn btn-primary">More Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
