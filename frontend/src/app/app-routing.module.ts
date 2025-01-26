@@ -12,6 +12,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { ViewAllRoomComponent } from './room/view-all-room/view-all-room.component';
 import { AddRoomComponent } from './room/add-room/add-room.component';
 import { HotelDetailsComponent } from './hotel/hotel-details/hotel-details.component';
+import { LocationDetailsComponent } from './location/location-details/location-details.component';
 const routes: Routes = [
 
   { path: '', component: HomePageComponent },
@@ -19,7 +20,9 @@ const routes: Routes = [
   //location
   { path: 'add-location', component: AddlocationComponent ,canActivate:[AdminGuard]},
   { path: 'view-all-location', component: ViewalllocationComponent},
+  {path:'location/:id',component:LocationDetailsComponent},
 
+  
   //hotel
   { path: 'add-hotel', component: AddhotelComponent, canActivate: [AdminGuard] },
   { path: 'view-all-hotel', component: ViewallhotelComponent },

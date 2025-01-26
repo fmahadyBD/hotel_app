@@ -20,7 +20,8 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" *ngIf="isAdmin" href="/add-location"> ADD LOCATION </a></li>
             <li><a class="dropdown-item" *ngIf="isAdmin" href="/add-hotel"> ADD HOTEL </a></li>
-            <li><a class="dropdown-item" *ngIf="isHotel" href="/add-room"> ADD ROOM </a></li>
+            <li><a class="dropdown-item" *ngIf="isHotel || isAdmin" href="/add-room"> ADD ROOM </a></li>
+            
           </ul>
         </li>
 

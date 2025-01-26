@@ -63,3 +63,23 @@
     </div>
   </div>
 </ng-template>
+
+
+
+<div class="container">
+  <p>All Room of the hotel</p>
+
+  <div class="row">
+    <div class="card md-4 m-2" style="width: 18rem" *ngFor="let room of rooms">
+      <img
+        [src]="'http://localhost:8080/images/rooms/' + room.image"
+        class="card-img-top"
+        alt="{{ room.name }}"
+      />
+      <div class="card-body">
+        <h5 class="card-title">Name: {{ room.name }}</h5>
+        <a href="/room/{{ room.id }}" class="btn btn-primary">More Details</a>
+      </div>
+    </div>
+  </div>
+</div>

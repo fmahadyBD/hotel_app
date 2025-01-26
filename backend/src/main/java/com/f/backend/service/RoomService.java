@@ -110,4 +110,11 @@ public class RoomService {
         return roomRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Room Not Found with this id: " + id));
     }
+
+    public List<Room> getRoomByHotelId(int id){
+        
+        return getAllRoom().stream()
+        .filter(room->room.getHotel().getId()==id).toList();
+    
+    }
 }

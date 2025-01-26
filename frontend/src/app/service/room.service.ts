@@ -10,14 +10,14 @@ export class RoomService {
   baseUrl: string = 'http://localhost:8080/api/room/';
 
   constructor(
-    private httpClind: HttpClient
+    private httpClint: HttpClient
   ) { }
 
   createRoom(room:Room,image:File):Observable<Room>{
     const formData = new FormData();
     formData.append( 'room', new Blob([JSON.stringify(room)],{type:'application/json'}));
     formData.append('image',image);
-    return this.httpClind.post<Room>(this.baseUrl+'save',formData)
+    return this.httpClint.post<Room>(this.baseUrl+'save',formData)
     .pipe(
       catchError(this.handelError)
     );
@@ -27,4 +27,17 @@ export class RoomService {
     console.error("An error occured: ",error);
     return throwError(()=>new Error(error.message|| "Server Error!"));
   }
+  getAllRoom():Observable<any>{
+    return this.httpClint.get(this.baseUrl)
+    .pipe(
+      catchError(this.handelError)
+    );
+  }
+  getAllRoomByHotelId(id: number):Observable<any>{
+    return this.httpClint.get<any>(this.baseUrl+'r/findRoomByHotelId',{
+      params:{hotelId:id.toString()},
+    });
+  }
+
+  
 }

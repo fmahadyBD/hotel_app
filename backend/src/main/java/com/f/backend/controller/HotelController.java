@@ -163,4 +163,10 @@ public class HotelController {
 
     // }
 
+    @GetMapping("/hotel-by-location-id/{id}")
+    public ResponseEntity<List<Hotel>> getHotelByLocationId(@PathVariable int id){
+            List<Hotel> hotels= hotelService.getHotelByLocationId(id);
+            return ResponseEntity.ok(hotels);
+
+    }
 }
