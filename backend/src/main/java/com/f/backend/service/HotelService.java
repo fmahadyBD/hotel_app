@@ -171,4 +171,8 @@ public class HotelService {
     public List<Hotel> findHotelByLocationName(String locationName) {
         return hotelRepository.findHotelByLocationName(locationName);
     }
+
+    public List<Hotel> getHotelByLocationId(int id){
+        return getAllHotel().stream().filter(hotel->hotel.getLocation().getId()==id).toList();
+    }
 }

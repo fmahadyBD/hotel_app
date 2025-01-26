@@ -20,7 +20,8 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" *ngIf="isAdmin" href="/add-location"> ADD LOCATION </a></li>
             <li><a class="dropdown-item" *ngIf="isAdmin" href="/add-hotel"> ADD HOTEL </a></li>
-            <li><a class="dropdown-item" *ngIf="isHotel" href="/add-room"> ADD ROOM </a></li>
+            <li><a class="dropdown-item" *ngIf="isHotel || isAdmin" href="/add-room"> ADD ROOM </a></li>
+            
           </ul>
         </li>
 
@@ -34,16 +35,26 @@
 
           </ul>
         </li>
+        <li class="nav-item" *ngIf="isLogout" >
+          <a class="nav-link active me-2" href="/login">LOGIN</a>
+        </li>
+
+        <li class="nav-item" *ngIf="isLogout">
+          <a class="nav-link active me-2"  href="/register">REGISTER</a>
+        </li>
+        
+        <li class="nav-item"*ngIf="isLogin" >
+          <button class="btn btn-outline-danger me-2"  (click)="authService.logout()"  type="submit">LOGOUT</button>
+        </li>
 
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success me-2" type="submit">Search</button>
-        <button class="btn btn-outline-danger me-2"  *ngIf="isLogin" (click)="authService.logout()"  type="submit">LOGOUT</button>
+        <!-- <button class="btn btn-outline-danger me-2"  *ngIf="isLogin" (click)="authService.logout()"  type="submit">LOGOUT</button> -->
       </form>
-
-      <a class="btn btn-outline-success me-2" *ngIf="isLogout" href="/login">LOGIN</a>
-      <a class="btn btn-outline-success me-2" *ngIf="isLogout" href="/register">REGISTER</a>
+      <!-- <a class="btn btn-outline-success me-2" *ngIf="isLogout" href="/login">LOGIN</a>
+      <a class="btn btn-outline-success me-2" *ngIf="isLogout" href="/register">REGISTER</a> -->
       <!-- <a class="btn btn-outline-danger"  *ngIf="isLogin" (click)="authService.logout()" type="button">LOGOUT</a> -->
     </div>
   </div>

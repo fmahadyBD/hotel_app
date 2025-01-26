@@ -135,7 +135,7 @@ public class LocationController {
         try {
             Location location = locationService.getLocationById(id);
             response.put("message", "Found the entity");
-            response.put("message", location);
+            response.put("locationr", location);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (EntityNotFoundException e) {
             response.put("message", "Error finding location: " + e.getMessage());

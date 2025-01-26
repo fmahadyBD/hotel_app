@@ -25,6 +25,13 @@ export class HotelService {
     );
 
   }
+  getHotelbyLocationId(id:number):Observable<any>{
+    return this.httpClent.get<any>(this.baseUrl+'hotel-by-location-id/'+id)
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
+
   private handleError(error: any){
     console.error("An error occured: ",error);
     return throwError(()=> new Error(error.message || "Server Error!"));
